@@ -14,22 +14,24 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Install package dependencies
-      run: |
-        docker run --rm -v ${{ github.workspace }}:/workdir blang/latex tlmgr update --self
-        docker run --rm -v ${{ github.workspace }}:/workdir blang/latex tlmgr install \
-          fontawesome5 \
-          latexsym \
-          fullpage \
-          titlesec \
-          marvosym \
-          xcolor \
-          verbatim \
-          enumitem \
-          hyperref \
-          fancyhdr \
-          babel-english \
-          tabularx
-
+        docker run --rm -v ${{ github.workspace }}:/workdir -v /tmp/texmf:/tmp/texmf blang/latex /bin/bash -c "
+          export TEXMFHOME=/tmp/texmf && \
+          tlmgr init-usertree && \
+          tlmgr update --self && \
+          tlmgr install \
+            fontawesome5 \
+            latexsym \
+            fullpage \
+            titlesec \
+            marvosym \
+            xcolor \
+            verbatim \
+            enumitem \
+            hyperref \
+            fancyhdr \
+            babel-english \
+            tabularx
+        "
     - name: Compile LaTeX document
       run: docker run --rm -v ${{ github.workspace }}:/workdir blang/latex pdflatex ./resume.tex
 
