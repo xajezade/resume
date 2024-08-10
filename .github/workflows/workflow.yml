@@ -28,9 +28,11 @@ jobs:
         path: resume.pdf
 
     - name: Configure Git and push to the main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         git config --global user.name 'xajezade'
         git config --global user.email 'ali.xajezade@gmail.com'
         git add resume.pdf
         git commit -m 'Add generated PDF'
-        git push
+        git push origin HEAD:${{ github.ref }}
