@@ -21,8 +21,16 @@ jobs:
           pdflatex -interaction=nonstopmode -file-line-error resume.tex && \
           rm -f *.log *.aux *.out
         "
-    - name: Upload PDF
+    - name: Upload PDF as artifact
       uses: actions/upload-artifact@v3
       with:
         name: ali-khajezade-resume.pdf
         path: resume.pdf
+
+    - name: Configure Git and push to the main
+      run: |
+        git config --global user.name 'xajezade'
+        git config --global user.email 'ali.xajezade@gmail.com'
+        git add resume.pdf
+        git commit -m 'Add generated PDF'
+        git push
