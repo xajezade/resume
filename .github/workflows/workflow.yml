@@ -25,4 +25,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: ali-khajezade-resume.pdf
-        path: ali-khajezade-resume.pdf
+        path: resume.pdf
