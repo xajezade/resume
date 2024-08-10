@@ -13,10 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install package dependencies
-      run: docker run --rm -v ${{ github.workspace }}:/workdir -v /tmp/texmf:/tmp/texmf blang/latex /bin/bash -c "
-          export TEXMFHOME=/tmp/texmf && \
-          tlmgr init-usertree && \
+    - name: Install necessary LaTeX packages
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/workdir -v /tmp/texmf:/tmp/texmf texlive/texlive /bin/bash -c "
           tlmgr update --self && \
           tlmgr install \
             fontawesome5 \
