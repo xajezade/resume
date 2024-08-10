@@ -11,15 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v3
 
     - name: Compile LaTeX document
       run: |
-	docker run --rm -v ${{ github.workspace }}:/workdir texlive/texlive pdflatex resume.tex
-	docker run --rm -v ${{ github.workspace }}:/workdir texlive/texlive /bin/bash -c "
+        docker run --rm -v ${{ github.workspace }}:/workdir texlive/texlive /bin/bash -c "
+          pdflatex -interaction=nonstopmode -file-line-error resume.tex && \
+          pdflatex -interaction=nonstopmode -file-line-error resume.tex && \
           rm -f *.log *.aux *.out
-	"
-
+        "
     - name: Upload PDF
       uses: actions/upload-artifact@v3
       with:
