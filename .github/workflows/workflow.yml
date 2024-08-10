@@ -13,6 +13,23 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Install package dependencies
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/workdir blang/latex tlmgr update --self
+        docker run --rm -v ${{ github.workspace }}:/workdir blang/latex tlmgr install \
+          fontawesome5 \
+          latexsym \
+          fullpage \
+          titlesec \
+          marvosym \
+          xcolor \
+          verbatim \
+          enumitem \
+          hyperref \
+          fancyhdr \
+          babel-english \
+          tabularx
+
     - name: Compile LaTeX document
       run: docker run --rm -v ${{ github.workspace }}:/workdir blang/latex pdflatex ./resume.tex
 
